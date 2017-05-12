@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://webServices/" name="NormalSearchStreamService" targetNamespace="http://webServices/" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <types>
+    <xsd:schema>
+      <xsd:import schemaLocation="https://webservices-uat.compuscan.co.za/NormalSearchStreamService?xsd=1" namespace="http://webServices/" />
+    </xsd:schema>
+  </types>
+  <message name="PingServer">
+    <part name="parameters" element="tns:PingServer" />
+  </message>
+  <message name="PingServerResponse">
+    <part name="parameters" element="tns:PingServerResponse" />
+  </message>
+  <message name="DoNormalEnquiryStream">
+    <part name="parameters" element="tns:DoNormalEnquiryStream" />
+  </message>
+  <message name="DoNormalEnquiryStreamResponse">
+    <part name="parameters" element="tns:DoNormalEnquiryStreamResponse" />
+  </message>
+  <message name="Exception">
+    <part name="fault" element="tns:Exception" />
+  </message>
+  <message name="DoNormalEnquiryStreamTest">
+    <part name="parameters" element="tns:DoNormalEnquiryStreamTest" />
+  </message>
+  <message name="DoNormalEnquiryStreamTestResponse">
+    <part name="parameters" element="tns:DoNormalEnquiryStreamTestResponse" />
+  </message>
+  <portType name="NormalSearchStreamService">
+    <operation name="PingServer">
+      <input message="tns:PingServer" />
+      <output message="tns:PingServerResponse" />
+    </operation>
+    <operation name="DoNormalEnquiryStream">
+      <input message="tns:DoNormalEnquiryStream" />
+      <output message="tns:DoNormalEnquiryStreamResponse" />
+      <fault name="Exception" message="tns:Exception" />
+    </operation>
+    <operation name="DoNormalEnquiryStreamTest">
+      <input message="tns:DoNormalEnquiryStreamTest" />
+      <output message="tns:DoNormalEnquiryStreamTestResponse" />
+      <fault name="Exception" message="tns:Exception" />
+    </operation>
+  </portType>
+  <binding name="NormalSearchStreamServicePortBinding" type="tns:NormalSearchStreamService">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <operation name="PingServer">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="DoNormalEnquiryStream">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+      <fault name="Exception">
+        <soap:fault use="literal" name="Exception" namespace="" />
+      </fault>
+    </operation>
+    <operation name="DoNormalEnquiryStreamTest">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+      <fault name="Exception">
+        <soap:fault use="literal" name="Exception" namespace="" />
+      </fault>
+    </operation>
+  </binding>
+  <service name="NormalSearchStreamService">
+    <port name="NormalSearchStreamServicePort" binding="tns:NormalSearchStreamServicePortBinding">
+      <soap:address location="https://webservices-uat.compuscan.co.za/NormalSearchStreamService" />
+    </port>
+  </service>
+</definitions>

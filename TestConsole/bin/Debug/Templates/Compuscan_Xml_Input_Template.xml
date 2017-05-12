@@ -1,0 +1,19 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:web="http://webServices/">
+  <soapenv:Header/>
+  <soapenv:Body>
+    <web:DoNormalEnquiry>
+      <!--Optional:-->
+      <request>
+        <pUsrnme>77806-1</pUsrnme>
+        <pPasswrd>devtest</pPasswrd>
+        <pVersion>1.0</pVersion>
+        <pOrigin>CC-SOAPUI</pOrigin>
+        <pOrigin_Version>5.2.1</pOrigin_Version>
+        <pInput_Format>XML</pInput_Format>
+        <pTransaction>
+          @TransactionInputString
+        </pTransaction>
+      </request>
+    </web:DoNormalEnquiry>
+  </soapenv:Body>
+</soapenv:Envelope>
