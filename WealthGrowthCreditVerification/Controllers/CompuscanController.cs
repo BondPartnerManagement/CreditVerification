@@ -23,26 +23,17 @@ namespace WealthGrowthCreditVerification.Controllers
             public BondPartnerInfoModel bondPartnerInfoModel { get; set; }
         }
 
-        CompuscanClient.NormalSearchStreamServiceClient _client = new CompuscanClient.NormalSearchStreamServiceClient();
-
-        //public CompuscanController()
-        //{
-        //    try
-        //    {
-        //        string json = "'answers': [{'type': 'text','text': 'Jannie','field': {'id': '1','type': 'short_text'} }]";
-        //        object obj = JsonConvert.SerializeObject(json);
-        //        obj = JsonConvert.DeserializeObject(obj.ToString());
-        //    }
-        //    catch (Exception ex)
-        //    {
-
-        //    }
-        //}
+        CompuscanClient.NormalSearchServiceClient _client = new CompuscanClient.NormalSearchServiceClient();
 
 
         [System.Web.Http.HttpPost()]
-        public void PerformCreditVerification(JObject jObj)//(string jsonMessage)
+        public void PerformCreditVerification(JObject jObj)
         {
+            EmailManager emailManager = new Common.EmailManager();
+
+            this._client.ClientCredentials.UserName.UserName = "77806-1";
+            this._client.ClientCredentials.UserName.Password = "devtest";
+
             File.AppendAllText(@"c:\jsonObject.txt", jObj.ToString());
 
             int retryCount = 0;
@@ -69,9 +60,24 @@ namespace WealthGrowthCreditVerification.Controllers
                 if (string.IsNullOrEmpty(xmlTransaction.Trim()))
                     return;
 
-                byte[][] transactionResponse = this.SubmitTransaction(xmlTransaction);
+                CompuscanClient.transReplyClass transactionResponse = this.SubmitTransaction(xmlTransaction);
 
-                // Process response and email to relevant parties;
+                if (!transactionResponse.transactionCompleted)
+                {
+                    // Log ErrorCode and ErrorString in Unique file.
+                    // Add bondPartnerWrapper ass xml to the Unique file.
+                    //transactionResponse.errorCode;
+                    //transactionResponse.errorString;
+
+                }
+                else
+                {
+                    // Convert byte[] to file and attached file to email.
+                    //transactionResponse.retData
+
+                    // Process response and email to relevant parties;
+                    emailManager.SendMail(bondPartnerWrapper.bondPartnerInfoModel.Email, "Bond Partner Credit Application Verification", "");
+                }
             }
         }
 
@@ -188,7 +194,7 @@ namespace WealthGrowthCreditVerification.Controllers
             this.ExtractAndAddInfoFromIdNumber(bondPartnerWrapperList[0].compuscanInputModel.Identity_number, bondPartnerWrapperList[0].compuscanInputModel);
 
             bondPartnerWrapperList[0].compuscanInputModel.CS_Data = "Y"; // Required
-            bondPartnerWrapperList[0].compuscanInputModel.CPA_Plus_NLR_Data = "N"; // Required
+            bondPartnerWrapperList[0].compuscanInputModel.CPA_Plus_NLR_Data = "Y"; // Required
             bondPartnerWrapperList[0].compuscanInputModel.Deeds_Data = "N"; // Required
             bondPartnerWrapperList[0].compuscanInputModel.Directors_Data = "N"; // Required
             //bondPartnerWrapperList[0].compuscanInputModel.Identity_number = ""; // Required 
@@ -199,11 +205,11 @@ namespace WealthGrowthCreditVerification.Controllers
             //bondPartnerWrapperList[0].compuscanInputModel.Gender = ""; // Required xy
             bondPartnerWrapperList[0].compuscanInputModel.Passport_flag = "N"; // Required
             //bondPartnerWrapperList[0].compuscanInputModel.DateOfBirth = 0; // Required xy
-            bondPartnerWrapperList[0].compuscanInputModel.Address1 = ""; // Required xy
-            bondPartnerWrapperList[0].compuscanInputModel.Address2 = ""; // Required xy
+            bondPartnerWrapperList[0].compuscanInputModel.Address1 = "_"; // Required xy
+            bondPartnerWrapperList[0].compuscanInputModel.Address2 = "_"; // Required xy
             bondPartnerWrapperList[0].compuscanInputModel.Address3 = "";
             bondPartnerWrapperList[0].compuscanInputModel.Address4 = "";
-            bondPartnerWrapperList[0].compuscanInputModel.PostalCode = ""; // Required xy
+            bondPartnerWrapperList[0].compuscanInputModel.PostalCode = "_"; // Required xy
             bondPartnerWrapperList[0].compuscanInputModel.HomeTelCode = "";
             bondPartnerWrapperList[0].compuscanInputModel.HomeTelNo = "";
             bondPartnerWrapperList[0].compuscanInputModel.WorkTelCode = "";
@@ -211,7 +217,7 @@ namespace WealthGrowthCreditVerification.Controllers
             //bondPartnerWrapperList[0].compuscanInputModel.CellTelNo = "";
             bondPartnerWrapperList[0].compuscanInputModel.ResultType = "XPDF2"; // Required
             bondPartnerWrapperList[0].compuscanInputModel.RunCodix = "N"; // Required
-            bondPartnerWrapperList[0].compuscanInputModel.CodixParams = new CodixParams();
+            //bondPartnerWrapperList[0].compuscanInputModel.CodixParams = new CodixParams(); // DO NOT ADD
             bondPartnerWrapperList[0].compuscanInputModel.Adrs_Mandatory = "Y"; // Required
             bondPartnerWrapperList[0].compuscanInputModel.Enq_Purpose = 12; // Required
             bondPartnerWrapperList[0].compuscanInputModel.Run_CompuScore = "Y"; // Required
@@ -231,18 +237,18 @@ namespace WealthGrowthCreditVerification.Controllers
                         Identity_number = bondPartnerWrapperList[0].bondPartnerInfoModel.SecondaryApplicantIdNumber,
 
                         CS_Data = "Y", // Required
-                        CPA_Plus_NLR_Data = "N", // Required
+                        CPA_Plus_NLR_Data = "Y", // Required
                         Deeds_Data = "N", // Required
                         Directors_Data = "N", // Required
                         Forename2 = "",
                         Forename3 = "",
                         //Gender = "", // Required xy
                         Passport_flag = "N", // Required
-                        Address1 = "", // Required xy
-                        Address2 = "", // Required xy
+                        Address1 = "_", // Required xy
+                        Address2 = "_", // Required xy
                         Address3 = "",
                         Address4 = "",
-                        PostalCode = "", // Required xy
+                        PostalCode = "_", // Required xy
                         HomeTelCode = "",
                         HomeTelNo = "",
                         WorkTelCode = "",
@@ -250,11 +256,12 @@ namespace WealthGrowthCreditVerification.Controllers
                         //CellTelNo = "",
                         ResultType = "XPDF2", // Required
                         RunCodix = "N", // Required
-                        CodixParams = new CodixParams(),
+                        //CodixParams = new CodixParams(), // DO NOT ADD
                         Adrs_Mandatory = "Y", // Required
                         Enq_Purpose = 12, // Required
                         Run_CompuScore = "Y", // Required
                         ClientConsent = "Y", // Required
+
                     }
                 });
 
@@ -290,25 +297,95 @@ namespace WealthGrowthCreditVerification.Controllers
                 xmlTemplate = sr.ReadToEnd();
 
             xmlTemplate = xmlTemplate.Replace("@TransactionInputString", $@"<![CDATA[{xmlTransaction}]]>");
-            xmlTemplate = xmlTransaction.Replace("<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n", "").Replace("xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"", "");
-            xmlTemplate = xmlTemplate.Replace("\r\n", "").Replace("\"", "");
+            xmlTemplate = xmlTemplate.Replace("<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n", "").Replace(" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"", "");
+            xmlTemplate = xmlTemplate.Replace("\r\n", "").Replace(@"\", "");
+            xmlTemplate = xmlTemplate.Replace("<Transactions>", "<Transactions><Search_Criteria>").Replace("</Transactions>", "</Search_Criteria></Transactions>");
+
             return xmlTemplate;
         }
 
-        private byte[][] SubmitTransaction(string xmlTransaction)
+        private CompuscanClient.transReplyClass SubmitTransaction(string xmlTransaction)
         {
             // branch:77806 // username: 77806-1 // password: devtest
 
-            CompuscanClient.NormalEnqRequestParamsType request = new CompuscanClient.NormalEnqRequestParamsType();
-            request.pUsrnme = "77806-1";
-            request.pPasswrd = "devtest";
-            request.pVersion = "1.0";
-            request.pOrigin = "WealthGrowthCreditVerification";
-            request.pOrigin_Version = "1.0.0.0";
-            request.pInput_Format = "XML";
-            request.pTransaction = xmlTransaction;
+            System.IO.Stream responseStream = null;
+            System.IO.StreamReader reader = null;
 
-            return this._client.DoNormalEnquiryStream(request);
+            System.Net.HttpWebRequest request = (System.Net.HttpWebRequest)System.Net.WebRequest.Create("https://webservices-uat.compuscan.co.za/NormalSearchService");
+            request.ContentType = "text/xml;charset=UTF-8";
+            request.Method = "POST";
+            request.KeepAlive = false;
+
+
+            byte[] byteArray = System.Text.Encoding.UTF8.GetBytes(xmlTransaction);
+            request.ContentLength = byteArray.Length;
+
+            System.IO.Stream requestStream = request.GetRequestStream();
+            requestStream.Write(byteArray, 0, byteArray.Length);
+            requestStream.Close();
+
+            System.Net.WebResponse webResponse = null;
+            try
+            {
+                webResponse = request.GetResponse();
+
+                // you can write this to files
+                responseStream = webResponse.GetResponseStream();
+                reader = new System.IO.StreamReader(responseStream);
+
+                string responseString = reader.ReadToEnd();
+
+                XmlDocument xmlDoc = new XmlDocument();
+                xmlDoc.LoadXml(responseString);
+
+                CompuscanClient.transReplyClass transReplyClass = new CompuscanClient.transReplyClass();
+
+                XmlNode xmlNode = xmlDoc.SelectSingleNode("retData");
+                transReplyClass.retData = xmlNode.InnerText;
+
+                xmlNode = xmlDoc.SelectSingleNode("transactionCompleted");
+                transReplyClass.transactionCompleted = xmlNode.InnerText.ToLower() == "true" ? true : false;
+
+                return transReplyClass;
+            }
+            catch (System.Net.WebException ex)
+            {
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+            finally
+            {
+                // cleanp
+                if (reader != null)
+                    reader.Close();
+                if (requestStream != null)
+                    requestStream.Close();
+                if (responseStream != null)
+                    responseStream.Close();
+                if (webResponse != null)
+                    webResponse.Close();
+            }
+
+            return null;
+
+
+
+            #region Old
+            //CompuscanClient.NormalEnqRequestParamsType request = new CompuscanClient.NormalEnqRequestParamsType();
+            //request.pUsrnme = "77806-1";
+            //request.pPasswrd = "devtest";
+            //request.pVersion = "1.0";
+            //request.pOrigin = "WealthGrowthCreditVerification";
+            //request.pOrigin_Version = "1.0.0.0";
+            //request.pInput_Format = "XML";
+            //request.pTransaction = xmlTransaction;
+
+            ////return this._client.DoNormalEnquiryStreamTest(request);
+            //return this._client.DoNormalEnquiry(request);
+            #endregion
         }
 
         private void ExtractAndAddInfoFromIdNumber(string saIdNumber, CompuscanInputModel input)
@@ -352,6 +429,7 @@ namespace WealthGrowthCreditVerification.Controllers
             string path = Uri.UnescapeDataString(uri.Path);
             return Path.GetDirectoryName(path);
         }
+
     }
 
 

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CompuscanInputModel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <CS_Data>Y</CS_Data>
+  <CPA_Plus_NLR_Data>N</CPA_Plus_NLR_Data>
+  <Deeds_Data>N</Deeds_Data>
+  <Directors_Data>N</Directors_Data>
+  <Identity_number>5407186507135</Identity_number>
+  <Surname>JannieSeVan</Surname>
+  <Forename>Jannie</Forename>
+  <Forename2 />
+  <Forename3 />
+  <Gender>M</Gender>
+  <Passport_flag>N</Passport_flag>
+  <DateOfBirth>19540718</DateOfBirth>
+  <Address1 />
+  <Address2 />
+  <Address3 />
+  <Address4 />
+  <PostalCode />
+  <HomeTelCode />
+  <HomeTelNo />
+  <WorkTelCode />
+  <WorkTelNo />
+  <CellTelNo>0825566765</CellTelNo>
+  <ResultType>XPDF2</ResultType>
+  <RunCodix>N</RunCodix>
+  <CodixParams />
+  <Adrs_Mandatory>Y</Adrs_Mandatory>
+  <Enq_Purpose>12</Enq_Purpose>
+  <Run_CompuScore>Y</Run_CompuScore>
+  <ClientConsent>Y</ClientConsent>
+</CompuscanInputModel>

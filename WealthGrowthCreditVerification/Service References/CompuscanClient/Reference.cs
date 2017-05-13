@@ -11,69 +11,27 @@
 namespace WealthGrowthCreditVerification.CompuscanClient {
     
     
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.6.1586.0")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://webServices/")]
-    public partial class Exception : object, System.ComponentModel.INotifyPropertyChanged {
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ServiceModel.ServiceContractAttribute(Namespace="http://webServices/", ConfigurationName="CompuscanClient.NormalSearchService")]
+    public interface NormalSearchService {
         
-        private string messageField;
+        // CODEGEN: Parameter 'TransReplyClass' requires additional schema information that cannot be captured using the parameter mode. The specific attribute is 'System.Xml.Serialization.XmlElementAttribute'.
+        [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="TransReplyClass")]
+        WealthGrowthCreditVerification.CompuscanClient.DoNormalEnquiryResponse DoNormalEnquiry(WealthGrowthCreditVerification.CompuscanClient.DoNormalEnquiryRequest request);
         
-        private stackTraceElement[][] suppressedField;
+        [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
+        System.Threading.Tasks.Task<WealthGrowthCreditVerification.CompuscanClient.DoNormalEnquiryResponse> DoNormalEnquiryAsync(WealthGrowthCreditVerification.CompuscanClient.DoNormalEnquiryRequest request);
         
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
-        public string message {
-            get {
-                return this.messageField;
-            }
-            set {
-                this.messageField = value;
-                this.RaisePropertyChanged("message");
-            }
-        }
+        // CODEGEN: Parameter 'return' requires additional schema information that cannot be captured using the parameter mode. The specific attribute is 'System.Xml.Serialization.XmlElementAttribute'.
+        [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        WealthGrowthCreditVerification.CompuscanClient.PingServerResponse PingServer(WealthGrowthCreditVerification.CompuscanClient.PingServerRequest request);
         
-        /// <remarks/>
-        [System.Xml.Serialization.XmlArrayAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable=true, Order=1)]
-        [System.Xml.Serialization.XmlArrayItemAttribute("stackTrace", typeof(stackTraceElement), Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public stackTraceElement[][] suppressed {
-            get {
-                return this.suppressedField;
-            }
-            set {
-                this.suppressedField = value;
-                this.RaisePropertyChanged("suppressed");
-            }
-        }
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.6.1586.0")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://webServices/")]
-    public partial class stackTraceElement : object, System.ComponentModel.INotifyPropertyChanged {
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
+        [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
+        System.Threading.Tasks.Task<WealthGrowthCreditVerification.CompuscanClient.PingServerResponse> PingServerAsync(WealthGrowthCreditVerification.CompuscanClient.PingServerRequest request);
     }
     
     /// <remarks/>
@@ -192,111 +150,13 @@ namespace WealthGrowthCreditVerification.CompuscanClient {
         }
     }
     
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ServiceModel.ServiceContractAttribute(Namespace="http://webServices/", ConfigurationName="CompuscanClient.NormalSearchStreamService")]
-    public interface NormalSearchStreamService {
-        
-        // CODEGEN: Parameter 'return' requires additional schema information that cannot be captured using the parameter mode. The specific attribute is 'System.Xml.Serialization.XmlElementAttribute'.
-        [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
-        WealthGrowthCreditVerification.CompuscanClient.PingServerResponse PingServer(WealthGrowthCreditVerification.CompuscanClient.PingServerRequest request);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
-        System.Threading.Tasks.Task<WealthGrowthCreditVerification.CompuscanClient.PingServerResponse> PingServerAsync(WealthGrowthCreditVerification.CompuscanClient.PingServerRequest request);
-        
-        // CODEGEN: Parameter 'return' requires additional schema information that cannot be captured using the parameter mode. The specific attribute is 'System.Xml.Serialization.XmlElementAttribute'.
-        [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
-        [System.ServiceModel.FaultContractAttribute(typeof(WealthGrowthCreditVerification.CompuscanClient.Exception), Action="", Name="Exception")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
-        WealthGrowthCreditVerification.CompuscanClient.DoNormalEnquiryStreamResponse DoNormalEnquiryStream(WealthGrowthCreditVerification.CompuscanClient.DoNormalEnquiryStreamRequest request);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
-        System.Threading.Tasks.Task<WealthGrowthCreditVerification.CompuscanClient.DoNormalEnquiryStreamResponse> DoNormalEnquiryStreamAsync(WealthGrowthCreditVerification.CompuscanClient.DoNormalEnquiryStreamRequest request);
-        
-        // CODEGEN: Parameter 'return' requires additional schema information that cannot be captured using the parameter mode. The specific attribute is 'System.Xml.Serialization.XmlElementAttribute'.
-        [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
-        [System.ServiceModel.FaultContractAttribute(typeof(WealthGrowthCreditVerification.CompuscanClient.Exception), Action="", Name="Exception")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
-        WealthGrowthCreditVerification.CompuscanClient.DoNormalEnquiryStreamTestResponse DoNormalEnquiryStreamTest(WealthGrowthCreditVerification.CompuscanClient.DoNormalEnquiryStreamTestRequest request);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
-        System.Threading.Tasks.Task<WealthGrowthCreditVerification.CompuscanClient.DoNormalEnquiryStreamTestResponse> DoNormalEnquiryStreamTestAsync(WealthGrowthCreditVerification.CompuscanClient.DoNormalEnquiryStreamTestRequest request);
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="PingServer", WrapperNamespace="http://webServices/", IsWrapped=true)]
-    public partial class PingServerRequest {
-        
-        public PingServerRequest() {
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="PingServerResponse", WrapperNamespace="http://webServices/", IsWrapped=true)]
-    public partial class PingServerResponse {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://webServices/", Order=0)]
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public bool @return;
-        
-        public PingServerResponse() {
-        }
-        
-        public PingServerResponse(bool @return) {
-            this.@return = @return;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="DoNormalEnquiryStream", WrapperNamespace="http://webServices/", IsWrapped=true)]
-    public partial class DoNormalEnquiryStreamRequest {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://webServices/", Order=0)]
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public WealthGrowthCreditVerification.CompuscanClient.NormalEnqRequestParamsType request;
-        
-        public DoNormalEnquiryStreamRequest() {
-        }
-        
-        public DoNormalEnquiryStreamRequest(WealthGrowthCreditVerification.CompuscanClient.NormalEnqRequestParamsType request) {
-            this.request = request;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="DoNormalEnquiryStreamResponse", WrapperNamespace="http://webServices/", IsWrapped=true)]
-    public partial class DoNormalEnquiryStreamResponse {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://webServices/", Order=0)]
-        [System.Xml.Serialization.XmlElementAttribute("return", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, DataType="base64Binary")]
-        public byte[][] @return;
-        
-        public DoNormalEnquiryStreamResponse() {
-        }
-        
-        public DoNormalEnquiryStreamResponse(byte[][] @return) {
-            this.@return = @return;
-        }
-    }
-    
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.6.1586.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://webServices/")]
-    public partial class transReplyStreamClass : object, System.ComponentModel.INotifyPropertyChanged {
+    public partial class transReplyClass : object, System.ComponentModel.INotifyPropertyChanged {
         
         private bool transactionCompletedField;
         
@@ -304,7 +164,7 @@ namespace WealthGrowthCreditVerification.CompuscanClient {
         
         private string errorStringField;
         
-        private byte[][] retDataField;
+        private string retDataField;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
@@ -343,8 +203,8 @@ namespace WealthGrowthCreditVerification.CompuscanClient {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("retData", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, DataType="base64Binary", Order=3)]
-        public byte[][] retData {
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=3)]
+        public string retData {
             get {
                 return this.retDataField;
             }
@@ -367,17 +227,17 @@ namespace WealthGrowthCreditVerification.CompuscanClient {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="DoNormalEnquiryStreamTest", WrapperNamespace="http://webServices/", IsWrapped=true)]
-    public partial class DoNormalEnquiryStreamTestRequest {
+    [System.ServiceModel.MessageContractAttribute(WrapperName="DoNormalEnquiry", WrapperNamespace="http://webServices/", IsWrapped=true)]
+    public partial class DoNormalEnquiryRequest {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://webServices/", Order=0)]
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public WealthGrowthCreditVerification.CompuscanClient.NormalEnqRequestParamsType request;
         
-        public DoNormalEnquiryStreamTestRequest() {
+        public DoNormalEnquiryRequest() {
         }
         
-        public DoNormalEnquiryStreamTestRequest(WealthGrowthCreditVerification.CompuscanClient.NormalEnqRequestParamsType request) {
+        public DoNormalEnquiryRequest(WealthGrowthCreditVerification.CompuscanClient.NormalEnqRequestParamsType request) {
             this.request = request;
         }
     }
@@ -385,113 +245,118 @@ namespace WealthGrowthCreditVerification.CompuscanClient {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="DoNormalEnquiryStreamTestResponse", WrapperNamespace="http://webServices/", IsWrapped=true)]
-    public partial class DoNormalEnquiryStreamTestResponse {
+    [System.ServiceModel.MessageContractAttribute(WrapperName="DoNormalEnquiryResponse", WrapperNamespace="http://webServices/", IsWrapped=true)]
+    public partial class DoNormalEnquiryResponse {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://webServices/", Order=0)]
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public WealthGrowthCreditVerification.CompuscanClient.transReplyStreamClass @return;
+        public WealthGrowthCreditVerification.CompuscanClient.transReplyClass TransReplyClass;
         
-        public DoNormalEnquiryStreamTestResponse() {
+        public DoNormalEnquiryResponse() {
         }
         
-        public DoNormalEnquiryStreamTestResponse(WealthGrowthCreditVerification.CompuscanClient.transReplyStreamClass @return) {
+        public DoNormalEnquiryResponse(WealthGrowthCreditVerification.CompuscanClient.transReplyClass TransReplyClass) {
+            this.TransReplyClass = TransReplyClass;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="PingServer", WrapperNamespace="http://webServices/", IsWrapped=true)]
+    public partial class PingServerRequest {
+        
+        public PingServerRequest() {
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="PingServerResponse", WrapperNamespace="http://webServices/", IsWrapped=true)]
+    public partial class PingServerResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://webServices/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public bool @return;
+        
+        public PingServerResponse() {
+        }
+        
+        public PingServerResponse(bool @return) {
             this.@return = @return;
         }
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public interface NormalSearchStreamServiceChannel : WealthGrowthCreditVerification.CompuscanClient.NormalSearchStreamService, System.ServiceModel.IClientChannel {
+    public interface NormalSearchServiceChannel : WealthGrowthCreditVerification.CompuscanClient.NormalSearchService, System.ServiceModel.IClientChannel {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public partial class NormalSearchStreamServiceClient : System.ServiceModel.ClientBase<WealthGrowthCreditVerification.CompuscanClient.NormalSearchStreamService>, WealthGrowthCreditVerification.CompuscanClient.NormalSearchStreamService {
+    public partial class NormalSearchServiceClient : System.ServiceModel.ClientBase<WealthGrowthCreditVerification.CompuscanClient.NormalSearchService>, WealthGrowthCreditVerification.CompuscanClient.NormalSearchService {
         
-        public NormalSearchStreamServiceClient() {
+        public NormalSearchServiceClient() {
         }
         
-        public NormalSearchStreamServiceClient(string endpointConfigurationName) : 
+        public NormalSearchServiceClient(string endpointConfigurationName) : 
                 base(endpointConfigurationName) {
         }
         
-        public NormalSearchStreamServiceClient(string endpointConfigurationName, string remoteAddress) : 
+        public NormalSearchServiceClient(string endpointConfigurationName, string remoteAddress) : 
                 base(endpointConfigurationName, remoteAddress) {
         }
         
-        public NormalSearchStreamServiceClient(string endpointConfigurationName, System.ServiceModel.EndpointAddress remoteAddress) : 
+        public NormalSearchServiceClient(string endpointConfigurationName, System.ServiceModel.EndpointAddress remoteAddress) : 
                 base(endpointConfigurationName, remoteAddress) {
         }
         
-        public NormalSearchStreamServiceClient(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
+        public NormalSearchServiceClient(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
                 base(binding, remoteAddress) {
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        WealthGrowthCreditVerification.CompuscanClient.PingServerResponse WealthGrowthCreditVerification.CompuscanClient.NormalSearchStreamService.PingServer(WealthGrowthCreditVerification.CompuscanClient.PingServerRequest request) {
+        WealthGrowthCreditVerification.CompuscanClient.DoNormalEnquiryResponse WealthGrowthCreditVerification.CompuscanClient.NormalSearchService.DoNormalEnquiry(WealthGrowthCreditVerification.CompuscanClient.DoNormalEnquiryRequest request) {
+            return base.Channel.DoNormalEnquiry(request);
+        }
+        
+        public WealthGrowthCreditVerification.CompuscanClient.transReplyClass DoNormalEnquiry(WealthGrowthCreditVerification.CompuscanClient.NormalEnqRequestParamsType request) {
+            WealthGrowthCreditVerification.CompuscanClient.DoNormalEnquiryRequest inValue = new WealthGrowthCreditVerification.CompuscanClient.DoNormalEnquiryRequest();
+            inValue.request = request;
+            WealthGrowthCreditVerification.CompuscanClient.DoNormalEnquiryResponse retVal = ((WealthGrowthCreditVerification.CompuscanClient.NormalSearchService)(this)).DoNormalEnquiry(inValue);
+            return retVal.TransReplyClass;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<WealthGrowthCreditVerification.CompuscanClient.DoNormalEnquiryResponse> WealthGrowthCreditVerification.CompuscanClient.NormalSearchService.DoNormalEnquiryAsync(WealthGrowthCreditVerification.CompuscanClient.DoNormalEnquiryRequest request) {
+            return base.Channel.DoNormalEnquiryAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<WealthGrowthCreditVerification.CompuscanClient.DoNormalEnquiryResponse> DoNormalEnquiryAsync(WealthGrowthCreditVerification.CompuscanClient.NormalEnqRequestParamsType request) {
+            WealthGrowthCreditVerification.CompuscanClient.DoNormalEnquiryRequest inValue = new WealthGrowthCreditVerification.CompuscanClient.DoNormalEnquiryRequest();
+            inValue.request = request;
+            return ((WealthGrowthCreditVerification.CompuscanClient.NormalSearchService)(this)).DoNormalEnquiryAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        WealthGrowthCreditVerification.CompuscanClient.PingServerResponse WealthGrowthCreditVerification.CompuscanClient.NormalSearchService.PingServer(WealthGrowthCreditVerification.CompuscanClient.PingServerRequest request) {
             return base.Channel.PingServer(request);
         }
         
         public bool PingServer() {
             WealthGrowthCreditVerification.CompuscanClient.PingServerRequest inValue = new WealthGrowthCreditVerification.CompuscanClient.PingServerRequest();
-            WealthGrowthCreditVerification.CompuscanClient.PingServerResponse retVal = ((WealthGrowthCreditVerification.CompuscanClient.NormalSearchStreamService)(this)).PingServer(inValue);
+            WealthGrowthCreditVerification.CompuscanClient.PingServerResponse retVal = ((WealthGrowthCreditVerification.CompuscanClient.NormalSearchService)(this)).PingServer(inValue);
             return retVal.@return;
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<WealthGrowthCreditVerification.CompuscanClient.PingServerResponse> WealthGrowthCreditVerification.CompuscanClient.NormalSearchStreamService.PingServerAsync(WealthGrowthCreditVerification.CompuscanClient.PingServerRequest request) {
+        System.Threading.Tasks.Task<WealthGrowthCreditVerification.CompuscanClient.PingServerResponse> WealthGrowthCreditVerification.CompuscanClient.NormalSearchService.PingServerAsync(WealthGrowthCreditVerification.CompuscanClient.PingServerRequest request) {
             return base.Channel.PingServerAsync(request);
         }
         
         public System.Threading.Tasks.Task<WealthGrowthCreditVerification.CompuscanClient.PingServerResponse> PingServerAsync() {
             WealthGrowthCreditVerification.CompuscanClient.PingServerRequest inValue = new WealthGrowthCreditVerification.CompuscanClient.PingServerRequest();
-            return ((WealthGrowthCreditVerification.CompuscanClient.NormalSearchStreamService)(this)).PingServerAsync(inValue);
-        }
-        
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        WealthGrowthCreditVerification.CompuscanClient.DoNormalEnquiryStreamResponse WealthGrowthCreditVerification.CompuscanClient.NormalSearchStreamService.DoNormalEnquiryStream(WealthGrowthCreditVerification.CompuscanClient.DoNormalEnquiryStreamRequest request) {
-            return base.Channel.DoNormalEnquiryStream(request);
-        }
-        
-        public byte[][] DoNormalEnquiryStream(WealthGrowthCreditVerification.CompuscanClient.NormalEnqRequestParamsType request) {
-            WealthGrowthCreditVerification.CompuscanClient.DoNormalEnquiryStreamRequest inValue = new WealthGrowthCreditVerification.CompuscanClient.DoNormalEnquiryStreamRequest();
-            inValue.request = request;
-            WealthGrowthCreditVerification.CompuscanClient.DoNormalEnquiryStreamResponse retVal = ((WealthGrowthCreditVerification.CompuscanClient.NormalSearchStreamService)(this)).DoNormalEnquiryStream(inValue);
-            return retVal.@return;
-        }
-        
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<WealthGrowthCreditVerification.CompuscanClient.DoNormalEnquiryStreamResponse> WealthGrowthCreditVerification.CompuscanClient.NormalSearchStreamService.DoNormalEnquiryStreamAsync(WealthGrowthCreditVerification.CompuscanClient.DoNormalEnquiryStreamRequest request) {
-            return base.Channel.DoNormalEnquiryStreamAsync(request);
-        }
-        
-        public System.Threading.Tasks.Task<WealthGrowthCreditVerification.CompuscanClient.DoNormalEnquiryStreamResponse> DoNormalEnquiryStreamAsync(WealthGrowthCreditVerification.CompuscanClient.NormalEnqRequestParamsType request) {
-            WealthGrowthCreditVerification.CompuscanClient.DoNormalEnquiryStreamRequest inValue = new WealthGrowthCreditVerification.CompuscanClient.DoNormalEnquiryStreamRequest();
-            inValue.request = request;
-            return ((WealthGrowthCreditVerification.CompuscanClient.NormalSearchStreamService)(this)).DoNormalEnquiryStreamAsync(inValue);
-        }
-        
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        WealthGrowthCreditVerification.CompuscanClient.DoNormalEnquiryStreamTestResponse WealthGrowthCreditVerification.CompuscanClient.NormalSearchStreamService.DoNormalEnquiryStreamTest(WealthGrowthCreditVerification.CompuscanClient.DoNormalEnquiryStreamTestRequest request) {
-            return base.Channel.DoNormalEnquiryStreamTest(request);
-        }
-        
-        public WealthGrowthCreditVerification.CompuscanClient.transReplyStreamClass DoNormalEnquiryStreamTest(WealthGrowthCreditVerification.CompuscanClient.NormalEnqRequestParamsType request) {
-            WealthGrowthCreditVerification.CompuscanClient.DoNormalEnquiryStreamTestRequest inValue = new WealthGrowthCreditVerification.CompuscanClient.DoNormalEnquiryStreamTestRequest();
-            inValue.request = request;
-            WealthGrowthCreditVerification.CompuscanClient.DoNormalEnquiryStreamTestResponse retVal = ((WealthGrowthCreditVerification.CompuscanClient.NormalSearchStreamService)(this)).DoNormalEnquiryStreamTest(inValue);
-            return retVal.@return;
-        }
-        
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<WealthGrowthCreditVerification.CompuscanClient.DoNormalEnquiryStreamTestResponse> WealthGrowthCreditVerification.CompuscanClient.NormalSearchStreamService.DoNormalEnquiryStreamTestAsync(WealthGrowthCreditVerification.CompuscanClient.DoNormalEnquiryStreamTestRequest request) {
-            return base.Channel.DoNormalEnquiryStreamTestAsync(request);
-        }
-        
-        public System.Threading.Tasks.Task<WealthGrowthCreditVerification.CompuscanClient.DoNormalEnquiryStreamTestResponse> DoNormalEnquiryStreamTestAsync(WealthGrowthCreditVerification.CompuscanClient.NormalEnqRequestParamsType request) {
-            WealthGrowthCreditVerification.CompuscanClient.DoNormalEnquiryStreamTestRequest inValue = new WealthGrowthCreditVerification.CompuscanClient.DoNormalEnquiryStreamTestRequest();
-            inValue.request = request;
-            return ((WealthGrowthCreditVerification.CompuscanClient.NormalSearchStreamService)(this)).DoNormalEnquiryStreamTestAsync(inValue);
+            return ((WealthGrowthCreditVerification.CompuscanClient.NormalSearchService)(this)).PingServerAsync(inValue);
         }
     }
 }

@@ -206,6 +206,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Common\EmailManager.cs" />
     <Compile Include="Common\ExtensionMethods.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CompuscanController.cs" />
@@ -270,11 +271,18 @@
     <Content Include="Scripts\respond.min.js" />
     <None Include="Service References\CompuscanClient\configuration91.svcinfo" />
     <None Include="Service References\CompuscanClient\configuration.svcinfo" />
+    <None Include="Service References\CompuscanClient\NormalSearchService.wsdl" />
+    <None Include="Service References\CompuscanClient\NormalSearchService.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Service References\CompuscanClient\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
     <Content Include="Templates\Compuscan_Xml_Input_Template.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Templates\Compuscan_Xml_Input_Template - Stream.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Web.config" />
@@ -292,26 +300,16 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <None Include="Service References\CompuscanClient\NormalSearchStreamService.wsdl" />
-    <None Include="Service References\CompuscanClient\NormalSearchStreamService.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <Content Include="Service References\CompuscanClient\WealthGrowthCreditVerification.CompuscanClient.DoNormalEnquiryStreamResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Content>
-    <Content Include="Service References\CompuscanClient\WealthGrowthCreditVerification.CompuscanClient.DoNormalEnquiryStreamTestResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Content>
     <Content Include="Service References\CompuscanClient\WealthGrowthCreditVerification.CompuscanClient.PingServerResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
-    <Content Include="Service References\CompuscanClient\WealthGrowthCreditVerification.CompuscanClient.transReplyStreamClass.datasource">
+    <Content Include="Templates\TypeForm_JSON_Example.json" />
+    <Content Include="Service References\CompuscanClient\WealthGrowthCreditVerification.CompuscanClient.DoNormalEnquiryResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
-    <None Include="Service References\CompuscanClient\xmlmime.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <Content Include="Templates\TypeForm_JSON_Example.json" />
+    <Content Include="Service References\CompuscanClient\WealthGrowthCreditVerification.CompuscanClient.transReplyClass.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

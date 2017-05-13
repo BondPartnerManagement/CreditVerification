@@ -84,6 +84,8 @@ namespace WealthGrowthCreditVerification.Models
 
     public class CodixParams
     {
+        public PARAMS Params { get; set; }
+
         public class PARAMS
         {
             [Required]

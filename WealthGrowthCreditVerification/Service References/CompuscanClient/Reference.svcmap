@@ -19,12 +19,11 @@
     <ServiceContractMappings />
   </ClientOptions>
   <MetadataSources>
-    <MetadataSource Address="https://webservices-uat.compuscan.co.za/NormalSearchStreamService?wsdl" Protocol="http" SourceId="1" />
+    <MetadataSource Address="https://webservices-uat.compuscan.co.za/NormalSearchService?wsdl" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="NormalSearchStreamService.xsd" MetadataType="Schema" ID="3f55c716-6670-469d-a5a0-51e7433d8589" SourceId="1" SourceUrl="https://webservices-uat.compuscan.co.za/NormalSearchStreamService?xsd=1" />
-    <MetadataFile FileName="xmlmime.xsd" MetadataType="Schema" ID="7b850b2b-1db8-4eeb-b3ba-c440fa40b84c" SourceId="1" SourceUrl="http://www.w3.org/2005/05/xmlmime.xsd" />
-    <MetadataFile FileName="NormalSearchStreamService.wsdl" MetadataType="Wsdl" ID="cd5d21a8-f909-414d-93a9-ace2e58c13b8" SourceId="1" SourceUrl="https://webservices-uat.compuscan.co.za/NormalSearchStreamService?wsdl" />
+    <MetadataFile FileName="NormalSearchService.xsd" MetadataType="Schema" ID="68e46eff-0e0e-49d9-a407-6f8cf8a4c2ba" SourceId="1" SourceUrl="https://webservices-uat.compuscan.co.za/NormalSearchService?xsd=1" />
+    <MetadataFile FileName="NormalSearchService.wsdl" MetadataType="Wsdl" ID="d632fcf8-ddae-4b91-961d-60c050a80727" SourceId="1" SourceUrl="https://webservices-uat.compuscan.co.za/NormalSearchService?wsdl" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
