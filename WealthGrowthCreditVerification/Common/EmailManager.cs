@@ -12,7 +12,7 @@ namespace WealthGrowthCreditVerification.Common
 {
     public class EmailManager
     {
-        public string SendMail(string toEmail, string subject, string emailBody)
+        public string SendMail(string toEmail, string subject, string emailBody, Attachment attachment)
         {
             try
             {
@@ -29,6 +29,7 @@ namespace WealthGrowthCreditVerification.Common
                 mail.To.Add(new MailAddress(toEmail));
                 mail.Subject = subject;
                 mail.Body = emailBody;
+                mail.Attachments.Add(attachment);
 
                 using (SmtpClient smtpServer = new SmtpClient(smtp))
                 {

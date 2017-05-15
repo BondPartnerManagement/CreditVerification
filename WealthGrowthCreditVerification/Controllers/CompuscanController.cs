@@ -12,13 +12,15 @@ using System.Xml.Serialization;
 using WealthGrowthCreditVerification.Models;
 using WealthGrowthCreditVerification.Common;
 using System.Xml;
+using System.Text;
 
 namespace WealthGrowthCreditVerification.Controllers
 {
     public class CompuscanController : ApiController
     {
-        private class BondPartnerWrapper
+        public class BondPartnerWrapper
         {
+            public string ReferelAgentEmail { get; set; }
             public CompuscanInputModel compuscanInputModel { get; set; }
             public BondPartnerInfoModel bondPartnerInfoModel { get; set; }
         }
@@ -29,55 +31,98 @@ namespace WealthGrowthCreditVerification.Controllers
         [System.Web.Http.HttpPost()]
         public void PerformCreditVerification(JObject jObj)
         {
-            EmailManager emailManager = new Common.EmailManager();
-
-            this._client.ClientCredentials.UserName.UserName = "77806-1";
-            this._client.ClientCredentials.UserName.Password = "devtest";
-
-            File.AppendAllText(@"c:\jsonObject.txt", jObj.ToString());
-
-            int retryCount = 0;
-            bool canSubmit = false;
-
-            while (!canSubmit && retryCount < 5)
+            try
             {
-                if (this._client.PingServer())
-                    canSubmit = true;
-            }
+                File.AppendAllText(@"c:\CreditVerification_Log.txt", $"Started {DateTime.Now}\r\n\r\n");
 
-            if (!canSubmit)
-                return;
+                EmailManager emailManager = new Common.EmailManager();
 
-            List<BondPartnerWrapper> bondPartnerWrapperList = this.BuildCompuscanInputModel(jObj.ToObject<TypeformJsonModel.RootObject>());
+                this._client.ClientCredentials.UserName.UserName = "77806-1";
+                this._client.ClientCredentials.UserName.Password = "devtest";
 
-            // Should only have two entries. 
-            // First entry is the Primary Applicant;
-            // Second entry is the Secondary Applicant;
-            foreach (BondPartnerWrapper bondPartnerWrapper in bondPartnerWrapperList)
-            {
-                string xmlTransaction = this.BuildXmlTransaction(bondPartnerWrapper.compuscanInputModel);
+                File.AppendAllText(@"c:\jsonObject.txt", jObj.ToString());
 
-                if (string.IsNullOrEmpty(xmlTransaction.Trim()))
+                int retryCount = 0;
+                bool canSubmit = false;
+
+                while (!canSubmit && retryCount < 5)
+                {
+                    if (this._client.PingServer())
+                        canSubmit = true;
+                }
+
+                if (!canSubmit)
                     return;
 
-                CompuscanClient.transReplyClass transactionResponse = this.SubmitTransaction(xmlTransaction);
+                List<BondPartnerWrapper> bondPartnerWrapperList = this.BuildCompuscanInputModel(jObj.ToObject<TypeformJsonModel.RootObject>());
 
-                if (!transactionResponse.transactionCompleted)
+                // Should only have two entries. 
+                // First entry is the Primary Applicant;
+                // Second entry is the Secondary Applicant;
+                foreach (BondPartnerWrapper bondPartnerWrapper in bondPartnerWrapperList)
                 {
-                    // Log ErrorCode and ErrorString in Unique file.
-                    // Add bondPartnerWrapper ass xml to the Unique file.
-                    //transactionResponse.errorCode;
-                    //transactionResponse.errorString;
+                    string xmlTransaction = this.BuildXmlTransaction(bondPartnerWrapper.compuscanInputModel);
 
-                }
-                else
-                {
-                    // Convert byte[] to file and attached file to email.
-                    //transactionResponse.retData
+                    if (string.IsNullOrEmpty(xmlTransaction.Trim()))
+                        return;
 
-                    // Process response and email to relevant parties;
-                    emailManager.SendMail(bondPartnerWrapper.bondPartnerInfoModel.Email, "Bond Partner Credit Application Verification", "");
+                    CompuscanClient.transReplyClass transactionResponse = null;
+                    retryCount = 3;
+                    do
+                    {
+                        transactionResponse = this.SubmitTransaction(xmlTransaction);
+                        if (transactionResponse != null && transactionResponse.transactionCompleted)
+                            retryCount = 0;
+                        else
+                            retryCount--;
+
+                    } while (retryCount < 0);
+
+                    if (transactionResponse == null || !transactionResponse.transactionCompleted)
+                    {
+                        // Log ErrorCode and ErrorString in Unique file.
+                        // Add bondPartnerWrapper ass xml to the Unique file.
+                        //transactionResponse.errorCode;
+                        //transactionResponse.errorString;
+
+                    }
+                    else
+                    {
+                        // Convert byte[] to file and attached file to email.
+                        byte[] decodeBase64Bytes = Convert.FromBase64String(transactionResponse.retData);
+                        MemoryStream compuscanResponseZippedFileStream = new MemoryStream(decodeBase64Bytes);
+                        System.Net.Mail.Attachment attachment = new System.Net.Mail.Attachment(
+                                                                    compuscanResponseZippedFileStream,
+                                                                    "Compuscan_Response.zip",
+                                                                    System.Net.Mime.MediaTypeNames.Application.Zip
+                                                                    );
+
+                        string emailBody = "The attachment is a zip file which contains pdf file and xml file.\r\nThese files show the applicant's Compuscan Credit Score as well as\r\nother credit related information.";
+
+                        // email to Applicant
+                        emailManager.SendMail(bondPartnerWrapper.bondPartnerInfoModel.Email, "Bond Partner Credit Application Verification", emailBody, attachment);
+                        // email to Agent
+                        if (!string.IsNullOrEmpty(bondPartnerWrapper.ReferelAgentEmail))
+                            emailManager.SendMail(bondPartnerWrapper.ReferelAgentEmail, "Bond Partner Credit Application Verification", emailBody, attachment);
+                        //// email to Admin "AdminEmail"
+                        //emailManager.SendMail(System.Configuration.ConfigurationManager.AppSettings.Get("AdminEmail"), "Bond Partner Credit Application Verification", base64DecodeMessage);
+                    }
                 }
+
+
+            }
+            catch (Exception ex)
+            {
+                File.AppendAllText(@"c:\CreditVerification_Log.txt", $"Exception {DateTime.Now}\r\n\r\n");
+
+                //string exception = "";
+                File.AppendAllText(
+                    $@"c:\CreditVerification_Log_{DateTime.Today.ToString("yyyy-mm-dd")}.txt",
+                    $"{ex.Message}\r\n\r\n{ex.InnerException}\r\n\r\n{ex.StackTrace}\r\n\r\n\r\n\r\n");
+            }
+            finally
+            {
+                File.AppendAllText(@"c:\CreditVerification_Log.txt", $"Ended {DateTime.Now}\r\n\r\n");
             }
         }
 
@@ -90,6 +135,9 @@ namespace WealthGrowthCreditVerification.Controllers
                 compuscanInputModel = new CompuscanInputModel(),
                 bondPartnerInfoModel = new BondPartnerInfoModel()
             });
+
+            if (rootObject.form_response.hidden != null && !string.IsNullOrEmpty(rootObject.form_response.hidden.referralagent))
+                bondPartnerWrapperList[0].ReferelAgentEmail = rootObject.form_response.hidden.referralagent;
 
             #region Primary Applicant
             foreach (TypeformJsonModel.Field field in rootObject.form_response.definition.fields)
@@ -113,7 +161,7 @@ namespace WealthGrowthCreditVerification.Controllers
                                 bondPartnerWrapperList[0].compuscanInputModel.Surname = answer.text;
                                 break;
                             }
-                        case "<strong>Mobile Number:</strong>":
+                        case "Mobile Number:":
                             {
                                 bondPartnerWrapperList[0].compuscanInputModel.CellTelNo = answer.text;
                                 break;
@@ -123,7 +171,7 @@ namespace WealthGrowthCreditVerification.Controllers
                                 bondPartnerWrapperList[0].bondPartnerInfoModel.Email = answer.email;
                                 break;
                             }
-                        case "<strong>ID Number:</strong>":
+                        case "ID Number:":
                             {
                                 bondPartnerWrapperList[0].compuscanInputModel.Identity_number = answer.text;
                                 break;
@@ -191,6 +239,10 @@ namespace WealthGrowthCreditVerification.Controllers
 
             }
 
+            XmlSerializer xmlSer = new XmlSerializer(typeof(List<BondPartnerWrapper>));
+            using (StreamWriter sr = new StreamWriter(@"c:\BondPartnerWrapper_List.xml"))
+                xmlSer.Serialize(sr, bondPartnerWrapperList);
+
             this.ExtractAndAddInfoFromIdNumber(bondPartnerWrapperList[0].compuscanInputModel.Identity_number, bondPartnerWrapperList[0].compuscanInputModel);
 
             bondPartnerWrapperList[0].compuscanInputModel.CS_Data = "Y"; // Required
@@ -215,7 +267,7 @@ namespace WealthGrowthCreditVerification.Controllers
             bondPartnerWrapperList[0].compuscanInputModel.WorkTelCode = "";
             bondPartnerWrapperList[0].compuscanInputModel.WorkTelNo = "";
             //bondPartnerWrapperList[0].compuscanInputModel.CellTelNo = "";
-            bondPartnerWrapperList[0].compuscanInputModel.ResultType = "XPDF2"; // Required
+            bondPartnerWrapperList[0].compuscanInputModel.ResultType = "XPDF"; // Required
             bondPartnerWrapperList[0].compuscanInputModel.RunCodix = "N"; // Required
             //bondPartnerWrapperList[0].compuscanInputModel.CodixParams = new CodixParams(); // DO NOT ADD
             bondPartnerWrapperList[0].compuscanInputModel.Adrs_Mandatory = "Y"; // Required
@@ -225,7 +277,7 @@ namespace WealthGrowthCreditVerification.Controllers
             #endregion
 
             #region LOGIC for Joint Application here
-            if (bondPartnerWrapperList[0].bondPartnerInfoModel.ApplicationType.ToLower() == "single")
+            if (bondPartnerWrapperList[0].bondPartnerInfoModel.ApplicationType.ToLower() != "single")
             {
                 bondPartnerWrapperList.Add(new BondPartnerWrapper()
                 {
@@ -254,7 +306,7 @@ namespace WealthGrowthCreditVerification.Controllers
                         WorkTelCode = "",
                         WorkTelNo = "",
                         //CellTelNo = "",
-                        ResultType = "XPDF2", // Required
+                        ResultType = "XPDF", // Required
                         RunCodix = "N", // Required
                         //CodixParams = new CodixParams(), // DO NOT ADD
                         Adrs_Mandatory = "Y", // Required
@@ -264,6 +316,8 @@ namespace WealthGrowthCreditVerification.Controllers
 
                     }
                 });
+
+                bondPartnerWrapperList[1].ReferelAgentEmail = bondPartnerWrapperList[0].ReferelAgentEmail;
 
                 // Extract info for Secondary Applicant.
                 this.ExtractAndAddInfoFromIdNumber(bondPartnerWrapperList[1].compuscanInputModel.Identity_number,
@@ -340,10 +394,10 @@ namespace WealthGrowthCreditVerification.Controllers
 
                 CompuscanClient.transReplyClass transReplyClass = new CompuscanClient.transReplyClass();
 
-                XmlNode xmlNode = xmlDoc.SelectSingleNode("retData");
+                XmlNode xmlNode = xmlDoc.SelectSingleNode("//retData");
                 transReplyClass.retData = xmlNode.InnerText;
 
-                xmlNode = xmlDoc.SelectSingleNode("transactionCompleted");
+                xmlNode = xmlDoc.SelectSingleNode("//transactionCompleted");
                 transReplyClass.transactionCompleted = xmlNode.InnerText.ToLower() == "true" ? true : false;
 
                 return transReplyClass;

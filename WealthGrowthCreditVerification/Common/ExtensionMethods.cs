@@ -34,7 +34,12 @@ namespace WealthGrowthCreditVerification.Common
                 d = 10 - (c % 10);
                 if (d == 10) d = 0;
             }
-            catch {/*ignore*/}
+            catch (Exception ex)
+            {
+                //System.IO.File.AppendAllText(
+                //    $@"c:\CreditVerification_Log_{DateTime.Today.ToString("yyyy-mm-dd")}.txt",
+                //    $"{ex.Message}\r\n\r\n{ex.InnerException}\r\n\r\n{ex.StackTrace}\r\n\r\n\r\n\r\n");
+            }
 
             if (d == int.Parse(idNumberString.Last().ToString()))
                 return true;
