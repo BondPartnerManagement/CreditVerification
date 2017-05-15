@@ -102,44 +102,26 @@ namespace WealthGrowthCreditVerification.Controllers
                         string emailBody = "This email is sent as verification that a Credit Check has been performed.\r\nThe attachment is a zip file which contains pdf file and xml file.\r\nThese files show the applicant's Compuscan Credit Score as well as\r\nother credit related information.";
 
                         // email to Applicant
-                        //sendMailError = 
                         emailManager.SendMail(
                         bondPartnerWrapper.bondPartnerInfoModel.Email,
                         "Bond Partner Credit Application Verification",
                         $"Dear {bondPartnerWrapper.compuscanInputModel.Forename} {bondPartnerWrapper.compuscanInputModel.Surname},\r\n\r\n{emailBody}",
                         attachment);
-                        //if (string.IsNullOrEmpty(sendMailError))
-                        //{
-                        //    File.AppendAllText(@"c:\CreditVerification_Log.txt", $"ApplicantMail: {sendMailError}\r\n\r\n");
-                        //    sendMailError = null;
-                        //}
 
                         // email to Agent
                         if (!string.IsNullOrEmpty(bondPartnerWrapper.ReferelAgentEmail))
-                            //sendMailError = 
                             emailManager.SendMail(
                             bondPartnerWrapper.ReferelAgentEmail,
                             "Bond Partner Credit Application Verification",
                             $"Dear Agent,\r\n\r\n{emailBody}",
                             attachment);
-                        //if (string.IsNullOrEmpty(sendMailError))
-                        //{
-                        //    File.AppendAllText(@"c:\CreditVerification_Log.txt", $"AgentMail: {sendMailError}\r\n\r\n");
-                        //    sendMailError = null;
-                        //}
 
                         // email to Admin "AdminEmail"
-                        //sendMailError = 
                         emailManager.SendMail(
                         System.Configuration.ConfigurationManager.AppSettings.Get("AdminEmail"),
                         "Bond Partner Credit Application Verification",
                         $"Dear Admin,\r\n\r\n{emailBody}",
                         attachment);
-                        //if (string.IsNullOrEmpty(sendMailError))
-                        //{
-                        //    File.AppendAllText(@"c:\CreditVerification_Log.txt", $"Admin: {sendMailError}\r\n\r\n");
-                        //    sendMailError = null;
-                        //}
                     }
                 }
 
