@@ -206,6 +206,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Common\CommonMethods.cs" />
     <Compile Include="Common\EmailManager.cs" />
     <Compile Include="Common\ExtensionMethods.cs" />
     <Compile Include="Controllers\AccountController.cs" />

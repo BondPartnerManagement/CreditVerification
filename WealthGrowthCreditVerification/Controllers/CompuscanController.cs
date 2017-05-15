@@ -33,14 +33,14 @@ namespace WealthGrowthCreditVerification.Controllers
         {
             try
             {
-                File.AppendAllText(@"c:\CreditVerification_Log.txt", $"Started {DateTime.Now}\r\n\r\n");
+                //File.AppendAllText(@"c:\CreditVerification_Log.txt", $"Started {DateTime.Now}\r\n\r\n");
 
                 EmailManager emailManager = new Common.EmailManager();
 
                 this._client.ClientCredentials.UserName.UserName = "77806-1";
                 this._client.ClientCredentials.UserName.Password = "devtest";
 
-                File.AppendAllText(@"c:\jsonObject.txt", jObj.ToString());
+                //File.AppendAllText($@"{CommonMethods.GetAppDataPath()}\jsonObject.txt", jObj.ToString());
 
                 int retryCount = 0;
                 bool canSubmit = false;
@@ -88,6 +88,8 @@ namespace WealthGrowthCreditVerification.Controllers
                     }
                     else
                     {
+                        //string sendMailError = null;
+
                         // Convert byte[] to file and attached file to email.
                         byte[] decodeBase64Bytes = Convert.FromBase64String(transactionResponse.retData);
                         MemoryStream compuscanResponseZippedFileStream = new MemoryStream(decodeBase64Bytes);
@@ -97,15 +99,47 @@ namespace WealthGrowthCreditVerification.Controllers
                                                                     System.Net.Mime.MediaTypeNames.Application.Zip
                                                                     );
 
-                        string emailBody = "The attachment is a zip file which contains pdf file and xml file.\r\nThese files show the applicant's Compuscan Credit Score as well as\r\nother credit related information.";
+                        string emailBody = "This email is sent as verification that a Credit Check has been performed.\r\nThe attachment is a zip file which contains pdf file and xml file.\r\nThese files show the applicant's Compuscan Credit Score as well as\r\nother credit related information.";
 
                         // email to Applicant
-                        emailManager.SendMail(bondPartnerWrapper.bondPartnerInfoModel.Email, "Bond Partner Credit Application Verification", emailBody, attachment);
+                        //sendMailError = 
+                        emailManager.SendMail(
+                        bondPartnerWrapper.bondPartnerInfoModel.Email,
+                        "Bond Partner Credit Application Verification",
+                        $"Dear {bondPartnerWrapper.compuscanInputModel.Forename} {bondPartnerWrapper.compuscanInputModel.Surname},\r\n\r\n{emailBody}",
+                        attachment);
+                        //if (string.IsNullOrEmpty(sendMailError))
+                        //{
+                        //    File.AppendAllText(@"c:\CreditVerification_Log.txt", $"ApplicantMail: {sendMailError}\r\n\r\n");
+                        //    sendMailError = null;
+                        //}
+
                         // email to Agent
                         if (!string.IsNullOrEmpty(bondPartnerWrapper.ReferelAgentEmail))
-                            emailManager.SendMail(bondPartnerWrapper.ReferelAgentEmail, "Bond Partner Credit Application Verification", emailBody, attachment);
-                        //// email to Admin "AdminEmail"
-                        //emailManager.SendMail(System.Configuration.ConfigurationManager.AppSettings.Get("AdminEmail"), "Bond Partner Credit Application Verification", base64DecodeMessage);
+                            //sendMailError = 
+                            emailManager.SendMail(
+                            bondPartnerWrapper.ReferelAgentEmail,
+                            "Bond Partner Credit Application Verification",
+                            $"Dear Agent,\r\n\r\n{emailBody}",
+                            attachment);
+                        //if (string.IsNullOrEmpty(sendMailError))
+                        //{
+                        //    File.AppendAllText(@"c:\CreditVerification_Log.txt", $"AgentMail: {sendMailError}\r\n\r\n");
+                        //    sendMailError = null;
+                        //}
+
+                        // email to Admin "AdminEmail"
+                        //sendMailError = 
+                        emailManager.SendMail(
+                        System.Configuration.ConfigurationManager.AppSettings.Get("AdminEmail"),
+                        "Bond Partner Credit Application Verification",
+                        $"Dear Admin,\r\n\r\n{emailBody}",
+                        attachment);
+                        //if (string.IsNullOrEmpty(sendMailError))
+                        //{
+                        //    File.AppendAllText(@"c:\CreditVerification_Log.txt", $"Admin: {sendMailError}\r\n\r\n");
+                        //    sendMailError = null;
+                        //}
                     }
                 }
 
@@ -113,16 +147,16 @@ namespace WealthGrowthCreditVerification.Controllers
             }
             catch (Exception ex)
             {
-                File.AppendAllText(@"c:\CreditVerification_Log.txt", $"Exception {DateTime.Now}\r\n\r\n");
+                //File.AppendAllText(@"c:\CreditVerification_Log.txt", $"Exception {DateTime.Now}\r\n\r\n");
 
-                //string exception = "";
-                File.AppendAllText(
-                    $@"c:\CreditVerification_Log_{DateTime.Today.ToString("yyyy-mm-dd")}.txt",
-                    $"{ex.Message}\r\n\r\n{ex.InnerException}\r\n\r\n{ex.StackTrace}\r\n\r\n\r\n\r\n");
+                ////string exception = "";
+                //File.AppendAllText(
+                //    $@"{CommonMethods.GetAppDataPath()}\CreditVerification_Log_{DateTime.Today.ToString("yyyy-mm-dd")}.txt",
+                //    $"{ex.Message}\r\n\r\n{ex.InnerException}\r\n\r\n{ex.StackTrace}\r\n\r\n\r\n\r\n");
             }
             finally
             {
-                File.AppendAllText(@"c:\CreditVerification_Log.txt", $"Ended {DateTime.Now}\r\n\r\n");
+                //File.AppendAllText($@"{CommonMethods.GetAppDataPath()}\CreditVerification_Log.txt", $"Ended {DateTime.Now}\r\n\r\n");
             }
         }
 
@@ -239,9 +273,9 @@ namespace WealthGrowthCreditVerification.Controllers
 
             }
 
-            XmlSerializer xmlSer = new XmlSerializer(typeof(List<BondPartnerWrapper>));
-            using (StreamWriter sr = new StreamWriter(@"c:\BondPartnerWrapper_List.xml"))
-                xmlSer.Serialize(sr, bondPartnerWrapperList);
+            //XmlSerializer xmlSer = new XmlSerializer(typeof(List<BondPartnerWrapper>));
+            //using (StreamWriter sr = new StreamWriter(@"c:\BondPartnerWrapper_List.xml"))
+            //    xmlSer.Serialize(sr, bondPartnerWrapperList);
 
             this.ExtractAndAddInfoFromIdNumber(bondPartnerWrapperList[0].compuscanInputModel.Identity_number, bondPartnerWrapperList[0].compuscanInputModel);
 
@@ -267,7 +301,7 @@ namespace WealthGrowthCreditVerification.Controllers
             bondPartnerWrapperList[0].compuscanInputModel.WorkTelCode = "";
             bondPartnerWrapperList[0].compuscanInputModel.WorkTelNo = "";
             //bondPartnerWrapperList[0].compuscanInputModel.CellTelNo = "";
-            bondPartnerWrapperList[0].compuscanInputModel.ResultType = "XPDF"; // Required
+            bondPartnerWrapperList[0].compuscanInputModel.ResultType = "XPDF2"; // Required
             bondPartnerWrapperList[0].compuscanInputModel.RunCodix = "N"; // Required
             //bondPartnerWrapperList[0].compuscanInputModel.CodixParams = new CodixParams(); // DO NOT ADD
             bondPartnerWrapperList[0].compuscanInputModel.Adrs_Mandatory = "Y"; // Required
@@ -306,7 +340,7 @@ namespace WealthGrowthCreditVerification.Controllers
                         WorkTelCode = "",
                         WorkTelNo = "",
                         //CellTelNo = "",
-                        ResultType = "XPDF", // Required
+                        ResultType = "XPDF2", // Required
                         RunCodix = "N", // Required
                         //CodixParams = new CodixParams(), // DO NOT ADD
                         Adrs_Mandatory = "Y", // Required
@@ -334,7 +368,7 @@ namespace WealthGrowthCreditVerification.Controllers
 
             XmlSerializer ser = new XmlSerializer(typeof(CompuscanInputModel));
 
-            string tempXmlFile = $@"{this.GetAppDataPath()}\tempXmlFile_{Guid.NewGuid()}";
+            string tempXmlFile = $@"{CommonMethods.GetAppDataPath()}\tempXmlFile_{Guid.NewGuid()}";
 
             using (StreamWriter sw = new StreamWriter(tempXmlFile))
                 ser.Serialize(sw, compuscanInputModel);
@@ -347,11 +381,13 @@ namespace WealthGrowthCreditVerification.Controllers
                 File.Delete(tempXmlFile);
 
             string xmlTemplate = null;
-            using (StreamReader sr = new StreamReader($"{this.GetAppDataPath()}\\Templates\\Compuscan_Xml_Input_Template.xml"))
+            using (StreamReader sr = new StreamReader($"{CommonMethods.GetAppDataPath()}\\Templates\\Compuscan_Xml_Input_Template.xml"))
                 xmlTemplate = sr.ReadToEnd();
 
             xmlTemplate = xmlTemplate.Replace("@TransactionInputString", $@"<![CDATA[{xmlTransaction}]]>");
-            xmlTemplate = xmlTemplate.Replace("<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n", "").Replace(" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"", "");
+            xmlTemplate = xmlTemplate.Replace("<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n", "");//.Replace(" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"", "");
+            xmlTemplate = xmlTemplate.Replace(" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"", "");
+            xmlTemplate = xmlTemplate.Replace(" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"", "");
             xmlTemplate = xmlTemplate.Replace("\r\n", "").Replace(@"\", "");
             xmlTemplate = xmlTemplate.Replace("<Transactions>", "<Transactions><Search_Criteria>").Replace("</Transactions>", "</Search_Criteria></Transactions>");
 
@@ -395,10 +431,12 @@ namespace WealthGrowthCreditVerification.Controllers
                 CompuscanClient.transReplyClass transReplyClass = new CompuscanClient.transReplyClass();
 
                 XmlNode xmlNode = xmlDoc.SelectSingleNode("//retData");
-                transReplyClass.retData = xmlNode.InnerText;
+                if (xmlNode != null)
+                    transReplyClass.retData = xmlNode.InnerText;
 
                 xmlNode = xmlDoc.SelectSingleNode("//transactionCompleted");
-                transReplyClass.transactionCompleted = xmlNode.InnerText.ToLower() == "true" ? true : false;
+                if (xmlNode != null)
+                    transReplyClass.transactionCompleted = xmlNode.InnerText.ToLower() == "true" ? true : false;
 
                 return transReplyClass;
             }
@@ -476,13 +514,7 @@ namespace WealthGrowthCreditVerification.Controllers
 
         }
 
-        private string GetAppDataPath()
-        {
-            string codeBase = Assembly.GetExecutingAssembly().CodeBase;
-            UriBuilder uri = new UriBuilder(codeBase);
-            string path = Uri.UnescapeDataString(uri.Path);
-            return Path.GetDirectoryName(path);
-        }
+
 
     }
 

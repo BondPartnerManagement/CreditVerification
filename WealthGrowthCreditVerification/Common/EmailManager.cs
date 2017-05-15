@@ -36,17 +36,28 @@ namespace WealthGrowthCreditVerification.Common
                     smtpServer.Credentials = new System.Net.NetworkCredential(username, password);
                     smtpServer.EnableSsl = enableSsl;
                     smtpServer.Port = Convert.ToInt32(port);
-                    smtpServer.Timeout = 10000;
+                    smtpServer.Timeout = 20000;
                     smtpServer.Send(mail);
+                    smtpServer.SendCompleted += SmtpServer_SendCompleted;
                 }
 
             }
             catch (Exception ex)
             {
+                //System.IO.File.AppendAllText(
+                //    $@"{CommonMethods.GetAppDataPath()}\CreditVerification_Log_{DateTime.Today.ToString("yyyy-mm-dd")}.txt",
+                //    $"{ex.Message}\r\n\r\n{ex.InnerException}\r\n\r\n{ex.StackTrace}\r\n\r\n\r\n\r\n");
+
                 return ex.ToString();
             }
 
             return null;
+        }
+
+        private void SmtpServer_SendCompleted(object sender, System.ComponentModel.AsyncCompletedEventArgs e)
+        {
+            string msg = $"UserState: {e.UserState}\r\nCancelled: {e.Cancelled}\r\nError: {e.Error}";
+            System.IO.File.AppendAllText(@"c:\CreditVerification_Log.txt", $"Exception {DateTime.Now}\r\n\r\n");
         }
     }
 }
